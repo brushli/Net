@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462;net4.0</TargetFrameworks>
+    <RepositoryUrl>https://github.com/DbUp/DbUp.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\dbup-core\dbup-core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess.Core">
+      <Version>2.12.0-beta2</Version>
+    </PackageReference>
+  </ItemGroup>
+ <ItemGroup Condition="'$(TargetFramework)' == 'net4.0'">
+    <PackageReference Include="Oracle.ManagedDataAccess">
+      <Version>12.2.1100</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    <PackageReference Include="Oracle.ManagedDataAccess">
+      <Version>12.2.1100</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
