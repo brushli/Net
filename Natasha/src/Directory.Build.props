@@ -1,0 +1,41 @@
+<Project>
+
+	<Choose>
+		<When Condition="$(MSBuildProjectFullPath.Contains('$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'src'))'))">
+			<PropertyGroup>
+				
+				<Copyright>.NET Core Community and Contributors</Copyright>
+				<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+				<PackageProjectUrl>https://github.com/dotnetcore/Natasha</PackageProjectUrl>
+				<IsPackable>true</IsPackable>
+				<SignAssembly>true</SignAssembly>
+				<Nullable>enable</Nullable>
+				<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+				<Company>.NET Core Community</Company>
+				<Authors>NMSAzulx</Authors>
+				<LangVersion>preview</LangVersion>
+
+				<PackageIcon>19404084.png</PackageIcon>
+				<PackageLicenseFile>LICENSE</PackageLicenseFile>
+				<AssemblyOriginatorKeyFile>$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'resources'))natasha.snk</AssemblyOriginatorKeyFile>
+				<IncludeSymbols>true</IncludeSymbols>
+				<NoWarn>1701;1702;0168;NETSDK1138;IDE0060;xUnit2000;CS0067;CS8321;CS0649;CS8604;CA1822;</NoWarn>
+				
+			</PropertyGroup>
+			
+			<ItemGroup>
+				<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.0" />
+			</ItemGroup>
+			
+			<ItemGroup Condition=" '$(IsPackable)' != 'false'">
+				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'resources'))19404084.png" Link="19404084.png" Pack="true" PackagePath=""/>
+				<None Include="$([MSBuild]::NormalizeDirectory('$(SolutionDir)', 'resources'))LICENSE" Link="LICENSE" Pack="true" PackagePath=""/>
+			</ItemGroup>
+
+
+		</When>
+	</Choose>
+
+
+
+</Project>
