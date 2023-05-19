@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WCFServer.%E5%8F%82%E6%95%B0" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCFServer.%E5%8F%82%E6%95%B0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="对象一">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sex" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="对象一" nillable="true" type="tns:对象一" />
+</xs:schema>

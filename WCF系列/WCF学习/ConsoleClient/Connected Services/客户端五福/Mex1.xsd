@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="空间1" elementFormDefault="qualified" targetNamespace="空间1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://127.0.0.1:8000/Mex?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFServer.%E5%8F%82%E6%95%B0" />
+  <xs:element name="服务1方法1">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WCFServer.%E5%8F%82%E6%95%B0" minOccurs="0" name="one" nillable="true" type="q1:对象一" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="服务1方法1Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="服务1方法1Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="服务1方法2">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="服务1方法2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="服务1方法2Result" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<script>
+$(function () {
+        initSearchControl({
+            id: 'unitSearch',
+            name: 'unitSeq',
+            value :'@this.ViewBag.unitSeq',
+            displayText : '@this.ViewBag.unitName',
+            height:280,
+            dataSource: @Html.Raw(this.ViewBag.unitList),
+            colModel: [{
+                        label: 'ID',
+                        name: 'ID',
+                        width: 30,
+                        key: true
+                    }, {
+                        label: '单位编码',
+                        width: 50,
+                        name: 'unitSeq'
+                    }, {
+                        label: '单位名称',
+                        name: 'unitName'
+                    }]
+        });
+
+        initSearchControl({
+            id: 'userSearch',
+            name: 'UserID',
+            value :'@Model.UserID',
+            displayText : '@ViewBag.UserName',
+            height:280,
+            filter : function(ds,txt){
+                var newData = new Array();
+                ds.forEach(function(obj)
+                {
+                    if(obj["unitSeq"]==$('form [name=unitSeq]').val()&&
+                    (obj["ID"].toString().indexOf(txt)>=0||obj["Name"].indexOf(txt)>=0))
+                    newData.push(obj);
+                });
+                return newData;
+            },
+            dataSource: @Html.Raw(this.ViewBag.UserList),
+            colModel: [{
+                        label: '用户ID',
+                        name: 'ID',
+                        width: 50,
+                        key: true
+                    }, {
+                        label: '用户姓名',
+                        width: 50,
+                        name: 'Name'
+                    }, {
+                        label: '所属部门',
+                        name: 'unitSeq'
+                    }]
+        });
+});
+    function submitForm(callback) {
+        $.submitForm({
+            url: "SubmitUserForm",
+            data: $('form').serializeForm(),
+            callback: callback
+        });
+    }
+</script>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal" style="margin-top: 30px">
+            <input  type="hidden" name= "ID" value="@Model.ID" />
+            <input  type="hidden" name= "AreaNo" value="@Model.AreaNo" />
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    ID
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input id="txtId" readonly type="text" class="col-xs-10 col-sm-10" />
+                    <script>
+                        var id = $("form input[name='ID']").val();
+                        if (id == -1)
+                            $("#txtId").val("新增");
+                        else
+                            $("#txtId").val(id);
+                    </script>
+                </div>
+            </div>
+            <input  type="hidden" name= "WindowID" value="@Model.WindowID" />
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    窗口
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" readonly value="@ViewBag.WindowName" autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    业务部门
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" id="unitSearch" displaymember='unitName' valuemember='unitSeq'
+                        autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    用户
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" id="userSearch" displaymember='Name' valuemember='ID' autocomplete="off"
+                        class="col-xs-8 col-sm-8" />
+                    <div class="checkbox col-xs-4 col-sm-4">
+                        <label>
+                            <input name="allUser" class="ace" type="checkbox" />
+                            <span class="lbl">&nbsp;该单位全部用户</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    创建时间
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="CreateDateTime" value="@Model.CreateDateTime" autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

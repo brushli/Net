@@ -1,0 +1,182 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script type="text/javascript">
+
+    var gridLC = "#grid-table";
+    var pagerLC = "#grid-pager";
+    var gridLed = "#grid-Led-table";
+    var pagerLed = "#grid-Led-pager";
+
+    $(function () {
+        $('body').layout({
+            west__size: 0.4
+        });
+        initLedData();
+        $(gridLC).jqGrid({
+            url: "/TLedWindow/GetGridData",
+            datatype: "json",
+            height: $(document).height() - 97,
+            colModel: [
+                { label: 'ID', name: 'ID', width: 60, sorttype: "int", key: true },
+                { label: 'IP', name: 'IP' },
+                { label: '端口号', name: 'Port' },
+                { label: '控制器名称', name: 'Name' }
+        ],
+            rowNum: -1,
+            pager: pagerLC,
+            autowidth: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                }, 0);
+                $(gridLC).selectFirstRow();
+            },
+            onSelectRow: function (id) {
+                refreshDetailData();
+            }
+        });
+    });
+
+    function refreshDetailData() {
+        var ctlId = $(gridLC).jqGrid('getGridParam', 'selrow');
+        if (ctlId == null)
+            ctlId = -1;
+        $.ajax({
+            url: "/TLedWindow/GetGridDetailData?controllerId=" + ctlId,
+            dataType: "json",
+            success: function (data) {
+                refreshLedData(data);
+            }
+        });
+    }
+
+    function initLedData() {
+        $(gridLed).jqGrid({
+            datatype: 'local',
+            data: [],
+            height: $(document).height() - 127,
+            colModel: [
+                { label: 'ID', name: 'ID', key: true, hidden: true },
+                { label: '窗口号', width: 80, name: 'WindowNumber' },
+                { label: '窗口名称', name: 'WindowName' },
+                { label: '显示内容', width: 80, name: 'DisplayText' },
+                { label: '显示位置', name: 'Position' }
+        ],
+            pager: pagerLed,
+            autowidth: true,
+            loadComplete: function () {
+                var table = this;
+                setTimeout(function () {
+                    updatePagerIcons(table);
+                }, 0);
+                $(gridLed).selectFirstRow();
+            }
+        });
+    }
+
+    function refreshLedData(griddata) {
+        $(gridLed).jqGrid('clearGridData');
+        $(gridLed).jqGrid('setGridParam', {
+            datatype: 'local',
+            data: griddata
+        }).trigger("reloadGrid");
+    }
+
+    function Add() {
+        var ctlId = $(gridLC).jqGrid('getGridParam', 'selrow');
+        if (ctlId == null) {
+            alert("没有选中控制卡！");
+            return;
+        }
+        $.modalOpen({
+            title: "LED屏幕 - 新增",
+            url: "SystemConfig/TLedWindow/Form?id=-1&ctlId=" + ctlId,
+            callback: function () {
+                $.modalContent().submitForm(function () {
+                    Refresh();
+                });
+            }
+        });
+    }
+
+    function Edit() {
+        var sid = $(gridLed).jqGrid('getGridParam', 'selrow');
+        if (sid == null) {
+            alert("没有任何选中行！");
+            return;
+        }
+        $.modalOpen({
+            title: "LED屏幕 - 编辑",
+            url: "SystemConfig/TLedWindow/Form?id=" + sid,
+            callback: function () {
+                $.modalContent().submitForm(function () {
+                    Refresh();
+                });
+            }
+        });
+    }
+
+    function Delete() {
+        var sid = $(gridLed).jqGrid('getGridParam', 'selrow');
+        if (sid == null) {
+            alert("没有任何选中行！");
+            return;
+        }
+        $.modalConfirm({
+            text: "确定删除该记录吗？",
+            callback: function () {
+                $.deleteForm({
+                    url: "TLedWindow/DeleteForm?id=" + sid,
+                    callback: function () {
+                        Refresh();
+                    }
+                });
+            }
+        });
+    }
+
+    function View() {
+        var sid = $(gridLed).jqGrid('getGridParam', 'selrow');
+        if (sid == null) {
+            alert("没有任何选中行！");
+            return;
+        }
+        $.modalOpen({
+            title: "LED屏幕 - 查看",
+            url: "SystemConfig/TLedWindow/Form?id=" + sid,
+            view: true
+        });
+    }
+
+    function Refresh() {
+        refreshDetailData();
+    }
+
+</script>
+<div class="ui-layout-west">
+    <table id="grid-table">
+    </table>
+    <div id="grid-pager">
+    </div>
+</div>
+<div class="ui-layout-center">
+    <div class="btn-group">
+        <button class="btn btn-sm btn-primary" onclick="Add()">
+            <i class="icon-plus-sign bigger-110"></i>新增</button>
+        <button class="btn btn-sm btn-success" onclick="Edit()">
+            <i class="icon-pencil bigger-110"></i>编辑</button>
+        <button class="btn btn-sm btn-danger" onclick="Delete()">
+            <i class="icon-minus-sign bigger-110"></i>删除</button>
+        <button class="btn btn-sm btn-yellow" onclick="View()">
+            <i class="icon-zoom-in bigger-110"></i>查看</button>
+        <button class="btn btn-sm btn-info" onclick="Refresh()">
+            <i class="icon-refresh bigger-110"></i>刷新</button>
+    </div>
+    <table id="grid-Led-table">
+    </table>
+    <div id="grid-Led-pager">
+    </div>
+</div>

@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Uinfor.Hangfire.Oracle
+build_property.ProjectDir = E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\

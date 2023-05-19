@@ -1,0 +1,82 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createHospitalModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'创建医院' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <tabset>
+        <tab [heading]="'创建医院' | localize" class="pt-3 px-2">
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="name">
+                    {{ "名称" | localize }}
+                </label>
+                <div class="col-md-9">
+                    <input type="text"
+                           class="form-control"
+                           name="name"
+                           id="name"
+                           required
+                           maxlength="50"
+                           [(ngModel)]="hospital.name"
+                           #nameModel="ngModel"
+                           #nameEl />
+                    <abp-validation-summary [control]="nameModel"
+                                            [controlEl]="nameEl"></abp-validation-summary>
+                </div>
+            </div>
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="description">
+                    {{ "APPID" | localize }}
+                </label>
+                <div class="col-md-9">
+                    <input type="text"
+                           class="form-control"
+                           name="appId"
+                           id="appId"
+                           required
+                           maxlength="50"
+                           [(ngModel)]="hospital.appId" />
+                </div>
+            </div>
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="description">
+                    {{ "SecurityKey" | localize }}
+                </label>
+                <div class="col-md-9">
+                    <input type="text"
+                           class="form-control"
+                           name="appSecurityKey"
+                           id="appSecurityKey"
+                           required
+                           maxlength="50"
+                           [(ngModel)]="hospital.appSecurityKey" />
+                </div>
+            </div>
+            <div class="form-group row required">
+                <label class="col-md-3 col-form-label" for="description">
+                    {{ "医院描述" | localize }}
+                </label>
+                <div class="col-md-9">
+                    <input type="text"
+                           class="form-control"
+                           name="description"
+                           id="description"
+                           required
+                           maxlength="50"
+                           [(ngModel)]="hospital.description" />
+                </div>
+            </div>
+        </tab>
+    </tabset>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!createHospitalModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

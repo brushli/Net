@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutIndex.cshtml";
+}
+<script type="text/javascript">
+
+    var grid_selector = "#grid-table";
+    var pager_selector = "#grid-pager";
+$(function() {
+    $(grid_selector).jqGrid({
+        url: "/TUser/GetGridData?key=",
+        datatype: "json",
+        height: $(document).height() - 127,
+        colModel: [
+                { label: 'ID', name: 'ID', width: 60, sorttype: "int", key:true },
+                { label: '所属部门', name: 'unitName', width: 90 },
+                { label: '姓名', name: 'Name', width: 90 },
+                { label: '工号', name: 'Code', width: 90 },
+                { label: '性别', name: 'Sex', width: 90 },
+                { label: '状态', name: 'State', width: 90 },
+                { label: '备注', name: 'Remark', width: 90 }
+        ],
+        rowNum:10,
+        rowList : [10,30,50],
+        loadonce: true, 
+        pager: pager_selector,
+        autowidth: true,
+        loadComplete: function() {
+            var table = this;
+            setTimeout(function() {
+                updatePagerIcons(table);
+            }
+            , 0);
+            $(grid_selector).selectFirstRow();
+        },
+    });
+}
+);
+
+function Add() 
+{
+    $.modalOpen({
+        title :"用户管理 - 新增",
+        url: "SystemConfig/TUser/Form?id=-1" ,
+        callback:function(){
+        var doc = $($.modalContent().document); 
+        $.ajax({
+                async: false, 
+                url: "TUser/QueryUserInfo?code="+ doc .find('form [name=Code]').val() + "&name="+ doc .find('form [name=Name]').val(), 
+                dataType: "json",
+                success: function (data) {
+                if(data.code=="")
+                {
+                    if(data.name =="")
+                    {   
+                            $.modalContent().submitForm(function(){
+                            Refresh();
+                            });
+                    }
+                    else
+                    {
+                        window.parent.modalConfirm({
+                        title : "提示",
+                        text:"该姓名已经存在，确定继续添加？",
+                        callback:function(){
+                            $.modalContent().submitForm(function(){
+                            Refresh();
+                            });
+                            window.parent.modalConfirmClose();
+                            window.parent.modalClose();
+                            }
+                        }); 
+                    }
+                }
+                else
+                {
+                    alert("用户编号重复，请核查");
+                }  
+                }
+            }); 
+        }
+     });
+}
+
+function Edit() 
+{
+    var sid = $(grid_selector).jqGrid('getGridParam', 'selrow');
+    if (sid == null) {
+        alert("没有任何选中行！");
+        return;
+    }
+    $.modalOpen({
+        title :"用户管理 - 编辑",
+        url: "SystemConfig/TUser/Form?id="+ sid ,
+        callback:function(){  
+            $.modalContent().submitForm(function(){
+                Refresh();
+            });
+        }
+     });
+}
+
+function Delete()
+{
+    var sid = $(grid_selector).jqGrid('getGridParam', 'selrow');
+    if (sid == null) {
+        alert("没有任何选中行！");
+        return;
+    }
+    $.modalConfirm({
+    text:"确定删除该记录吗？",
+    callback:function(){
+        $.deleteForm({
+            url: "TUser/DeleteForm?id="+ sid,
+            callback:function(){
+                Refresh();
+                }
+            });
+        }
+    });
+}
+
+function View()
+{
+    var sid = $(grid_selector).jqGrid('getGridParam', 'selrow');
+    if (sid == null) {
+        alert("没有任何选中行！");
+        return;
+    }
+    $.modalOpen({
+        title :"用户管理 - 查看",
+        url: "SystemConfig/TUser/Form?id="+ sid,
+        view : true
+     });
+}
+
+function Refresh() 
+{
+    $(grid_selector).setGridParam({
+    url: "/TUser/GetGridData?key="+$('#txtSearch').val(),
+    datatype:'json',
+    page:1}).trigger('reloadGrid');
+}
+
+</script>
+<div>
+    <div class="btn-group">
+        <button class="btn btn-sm btn-primary" onclick="Add()">
+            <i class="icon-plus-sign bigger-110"></i>新增</button>
+        <button class="btn btn-sm btn-success" onclick="Edit()">
+            <i class="icon-pencil bigger-110"></i>编辑</button>
+        <button class="btn btn-sm btn-danger" onclick="Delete()">
+            <i class="icon-minus-sign bigger-110"></i>删除</button>
+        <button class="btn btn-sm btn-yellow" onclick="View()">
+            <i class="icon-zoom-in bigger-110"></i>查看</button>
+        <input type="text" style="float: left" id="txtSearch" />
+        <button class="btn btn-sm btn-info" onclick="Refresh()">
+            <i class="icon-refresh bigger-110"></i>刷新</button>
+    </div>
+    <table id="grid-table">
+    </table>
+    <div id="grid-pager">
+    </div>
+</div>

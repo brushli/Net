@@ -10,4 +10,13 @@
 | net_winform_custom_control | HZH_Controls  winform的自定义控件源码                        |
 | aspnetboilerplate          | abp的源码，与cuotiben关联                                    |
 | ChatGPT                    | ChatGPT接入的源码，有桌面                                    |
+| ArpSpoofing                | ARP攻击工具                                                  |
+| ConsoleTest                | 用来做控制台下的一些测试                                     |
+| CefSharp                   | CefSharp浏览器插件源码以及做的调整和测试                     |
+| WCF系列                    | WCF系列                                                      |
+| ScheduleMasterCore         | 使用quarztz作为基础的定时任务调度框架.net core               |
+| mRemoteNG                  | mRemoteNG  远程桌面工具，多开源码                            |
+| MainRegister               | 给张杰做的一个简单的工具，注册提醒服务                       |
+| QueueSystem                | 一个排队叫号系统的源码，学习使用                             |
+| OCM                        | 基于ABP框架+angular版本的 门诊管理                           |
 

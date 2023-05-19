@@ -1,0 +1,107 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ChatGPT.ViewModels;assembly=ChatGPT.Core"
+             xmlns:vmc="clr-namespace:ChatGPT.ViewModels.Chat;assembly=ChatGPT.Core"
+             xmlns:vml="clr-namespace:ChatGPT.ViewModels.Layouts;assembly=ChatGPT.Core"
+             xmlns:chat="clr-namespace:ChatGPT.Views.Chat"
+             xmlns:views="clr-namespace:ChatGPT.Views"
+             xmlns:settings="clr-namespace:ChatGPT.Views.Settings"
+             xmlns:history="clr-namespace:ChatGPT.Views.History"
+             xmlns:prompts="clr-namespace:ChatGPT.Views.Prompts"
+             xmlns:controls="clr-namespace:ChatGPT.Controls"
+             xmlns:converters="clr-namespace:ChatGPT.Converters"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="700"
+             x:Class="ChatGPT.Views.Layouts.DesktopLayoutView"
+             x:CompileBindings="True" x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <vm:MainViewModel>
+      <vm:MainViewModel.DesktopLayout>
+        <vml:DesktopLayoutViewModel>
+          <vml:DesktopLayoutViewModel.ShowChats>True</vml:DesktopLayoutViewModel.ShowChats>
+          <vml:DesktopLayoutViewModel.ShowSettings>True</vml:DesktopLayoutViewModel.ShowSettings>
+          <vml:DesktopLayoutViewModel.ShowPrompts>True</vml:DesktopLayoutViewModel.ShowPrompts>
+          <vml:DesktopLayoutViewModel.SettingsWidth>250</vml:DesktopLayoutViewModel.SettingsWidth>
+          <vml:DesktopLayoutViewModel.ChatsWidth>290</vml:DesktopLayoutViewModel.ChatsWidth>
+          <vml:DesktopLayoutViewModel.PromptsWidth>290</vml:DesktopLayoutViewModel.PromptsWidth>
+        </vml:DesktopLayoutViewModel>
+      </vm:MainViewModel.DesktopLayout>
+    </vm:MainViewModel>
+  </Design.DataContext>
+
+  <Grid Margin="12"
+        RowDefinitions="*,Auto"
+        ColumnDefinitions="*,Auto"
+        ShowGridLines="False">
+
+    <Panel Grid.Row="0"
+           Grid.Column="0"
+           Grid.ColumnSpan="2">
+
+      <Grid Name="WorkspaceGrid">
+
+        <Grid.ColumnDefinitions>
+          <controls:CustomColumnDefinition BindWidth="{Binding DesktopLayout.ChatsWidth, Mode=TwoWay, Converter={x:Static converters:GridLengthConverter.Instance}}"
+                                           IsVisible="{Binding DesktopLayout.ShowChats}"/>
+          <ColumnDefinition Width="8" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="8" />
+          <controls:CustomColumnDefinition BindWidth="{Binding DesktopLayout.SettingsWidth, Mode=TwoWay, Converter={x:Static converters:GridLengthConverter.Instance}}"
+                                           IsVisible="{Binding DesktopLayout.ShowSettings}"/>
+          <ColumnDefinition Width="8" />
+          <controls:CustomColumnDefinition BindWidth="{Binding DesktopLayout.PromptsWidth, Mode=TwoWay, Converter={x:Static converters:GridLengthConverter.Instance}}"
+                                           IsVisible="{Binding DesktopLayout.ShowPrompts}"/>
+        </Grid.ColumnDefinitions>
+
+        <history:HistoryView Name="History" 
+                             IsVisible="{Binding DesktopLayout.ShowChats}"
+                             Grid.Column="0" />
+
+        <GridSplitter Name="HistorySplitter" 
+                      ResizeBehavior="PreviousAndNext"
+                      ResizeDirection="Columns"
+                      Background="Transparent"
+                      Grid.Column="1" />
+
+        <ContentControl Content="{Binding CurrentChat}"
+                        VerticalAlignment="Top"
+                        Grid.Column="2">
+          <ContentControl.ContentTemplate>
+            <DataTemplate DataType="vmc:ChatViewModel">
+              <chat:ChatView />
+            </DataTemplate>
+          </ContentControl.ContentTemplate>
+        </ContentControl>
+    
+        <GridSplitter Name="SettingsSplitter" 
+                      ResizeBehavior="PreviousAndNext"
+                      ResizeDirection="Columns"
+                      Background="Transparent"
+                      Grid.Column="3" />
+
+        <settings:SettingsView Name="Settings"
+                               IsVisible="{Binding DesktopLayout.ShowSettings}" 
+                               Grid.Column="4"  />
+
+        <prompts:PromptsView Name="Prompts"
+                             Grid.Column="6"
+                             IsVisible="{Binding DesktopLayout.ShowPrompts}" />
+
+      </Grid>
+
+    </Panel>
+
+    <views:MainViewActionsView Grid.Column="0"
+                               Grid.Row="1" />
+
+    <Image Grid.Column="1"
+           Grid.Row="1"
+           Name="ClippyImage"
+           Height="100"
+           Margin="-32,2,0,0"
+           Source="/Assets/clipart855284.png"/>
+
+  </Grid>
+
+</UserControl>

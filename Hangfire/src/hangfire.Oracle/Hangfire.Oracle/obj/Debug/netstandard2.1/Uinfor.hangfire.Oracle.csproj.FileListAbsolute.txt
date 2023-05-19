@@ -1,0 +1,10 @@
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\bin\Debug\netstandard2.1\Uinfor.Hangfire.Oracle.deps.json
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\bin\Debug\netstandard2.1\Uinfor.Hangfire.Oracle.dll
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\bin\Debug\netstandard2.1\Uinfor.Hangfire.Oracle.pdb
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.hangfire.Oracle.csproj.AssemblyReference.cache
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.hangfire.Oracle.GeneratedMSBuildEditorConfig.editorconfig
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.hangfire.Oracle.AssemblyInfoInputs.cache
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.hangfire.Oracle.AssemblyInfo.cs
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.hangfire.Oracle.csproj.CoreCompileInputs.cache
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.Hangfire.Oracle.dll
+E:\Personal\Hangfire\src\hangfire.Oracle\Hangfire.Oracle\obj\Debug\netstandard2.1\Uinfor.Hangfire.Oracle.pdb

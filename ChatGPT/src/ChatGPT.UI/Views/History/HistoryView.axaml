@@ -1,0 +1,69 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ChatGPT.ViewModels;assembly=ChatGPT.Core"
+             xmlns:vmc="clr-namespace:ChatGPT.ViewModels.Chat;assembly=ChatGPT.Core"
+             xmlns:history="clr-namespace:ChatGPT.Views.History"
+             xmlns:views="clr-namespace:ChatGPT.Views"
+             xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System.ObjectModel"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="650"
+             x:Class="ChatGPT.Views.History.HistoryView"
+             x:CompileBindings="True" x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <vm:MainViewModel>
+      <vm:MainViewModel.Chats>
+        <objectModel:ObservableCollection x:TypeArguments="vmc:ChatViewModel">
+          <vmc:ChatViewModel Name="Chat 1" />
+          <vmc:ChatViewModel Name="Chat 2" />
+          <vmc:ChatViewModel Name="Chat 3" />
+        </objectModel:ObservableCollection>
+      </vm:MainViewModel.Chats>
+    </vm:MainViewModel>
+  </Design.DataContext>
+  <DockPanel VerticalAlignment="Stretch">
+    <views:HeaderView Header="Chats"
+                      Margin="0,6,0,0"
+                      DockPanel.Dock="Top" />
+    <history:HistoryActionsView DockPanel.Dock="Bottom" 
+                                Margin="0,16,0,0"/>
+    <StackPanel Orientation="Vertical"
+                IsVisible="{Binding !!CurrentChat}"
+                DockPanel.Dock="Bottom">
+      <TextBlock Text="Name:" 
+                 Margin="4" 
+                 Padding="0,4,0,4" 
+                 FontSize="{DynamicResource SettingHeaderFontSize}" />
+      <TextBox Text="{Binding CurrentChat.Name}" 
+               Margin="4" 
+               Padding="8" 
+               FontSize="{DynamicResource SettingContentFontSize}"/>
+    </StackPanel>
+    <ListBox ItemsSource="{Binding Chats}"
+             SelectedItem="{Binding CurrentChat}"
+             SelectionMode="Single"
+             AutoScrollToSelectedItem="True"
+             Background="Transparent">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <VirtualizingStackPanel />
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.DataTemplates>
+        <DataTemplate DataType="vmc:ChatViewModel">
+          <StackPanel Orientation="Horizontal">
+            <PathIcon Data="{DynamicResource ChatIcon}"
+                      Width="24"
+                      Height="24"
+                      Opacity="0.5"
+                      Foreground="{DynamicResource SettingsIconBrush}" />
+            <TextBlock Text="{Binding Name}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       Margin="6,0,6,0" />
+          </StackPanel>
+        </DataTemplate>
+      </ListBox.DataTemplates>
+    </ListBox>
+  </DockPanel>
+</UserControl>

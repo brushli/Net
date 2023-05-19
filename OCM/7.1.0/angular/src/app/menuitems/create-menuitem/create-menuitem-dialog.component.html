@@ -1,0 +1,113 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #createMenuItemModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'创建菜单' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <tabset>
+      <tab [heading]="'菜单信息' | localize" class="pt-3 px-2">
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="lable">
+            {{ "名称" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="lable"
+              id="lable"
+              required
+              maxlength="50"
+              [(ngModel)]="menuitem.lable"
+              #nameModel="ngModel"
+              #nameEl
+            />
+            <abp-validation-summary
+              [control]="nameModel"
+              [controlEl]="nameEl"
+            ></abp-validation-summary>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="code">
+            {{ "编码" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="code"
+              id="code"
+              required
+              maxlength="50" 
+             [(ngModel)]="menuitem.code"
+            />
+            <!--<abp-validation-summary
+              [control]="passwordModel"
+              [controlEl]="passwordEl"
+              [customValidationErrors]="passwordValidationErrors"
+            ></abp-validation-summary>-->
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="route">
+            {{ "页面地址" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="route"
+              id="route"
+              required
+              maxlength="50"
+              [(ngModel)]="menuitem.route"
+            />
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="icon">
+            {{ "图标" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="icon"
+              id="icon"
+              required
+              maxlength="50"
+              [(ngModel)]="menuitem.icon"
+            />
+          </div>
+        </div>
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="description">
+            {{ "菜单描述" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="description"
+              id="description"
+              required
+              maxlength="50"
+              [(ngModel)]="menuitem.description"
+            />
+          </div>
+        </div>
+      </tab>
+    </tabset>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!createMenuItemModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

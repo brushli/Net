@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<script>
+    $(function () {
+        initSearchControl({
+            id: 'unitSearch',
+            name: 'unitSeq',
+            value :'@Model.unitSeq',
+            displayText : '@this.ViewBag.unitName',
+            height:280,
+            dataSource: @Html.Raw(this.ViewBag.unitList),
+            colModel: [{
+                        label: 'ID',
+                        name: 'ID',
+                        width: 30,
+                        key: true
+                    }, {
+                        label: '单位编码',
+                        width: 50,
+                        name: 'unitSeq'
+                    }, {
+                        label: '单位名称',
+                        name: 'unitName'
+                    }]
+        });
+        
+                $("#avatarSelect").change(function() {
+                    var obj = $("#avatarSelect")[0].files[0];
+                    var fr = new FileReader();
+                    fr.onload = function() {
+                        $("#avatarPreview").attr('src', this.result);
+                        $("form [name=avatar]").val(this.result);
+                    };
+                    fr.readAsDataURL(obj);
+                });
+    });
+    function submitForm(callback) {
+        $.submitForm({
+            url: "SubmitForm",
+            data: $('form').serializeForm(),
+            success: function (data) {
+                if(data.indexOf("成功")<0)
+                {
+                    alert(data);
+                    this.close = false;
+                 }
+            },
+            callback: callback
+        });
+    }
+</script>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal" style="margin-top: 30px">
+            <input  type="hidden" name= "ID" value="@Model.ID" />
+            <input  type="hidden" name= "AreaNo" value="@Model.AreaNo" />
+            <div class="form-group" style="margin-bottom: 0px">
+                <div class="col-sm-9 col-xs-9">
+                    <div class="form-group">
+                        <label class="col-sm-4 col-xs-4">
+                            ID
+                        </label>
+                        <div class="col-sm-8 col-xs-8">
+                            <input id="txtId" readonly type="text" class="col-xs-10 col-sm-10" />
+                            <script>
+                                var id = $("form input[name='ID']").val();
+                                if (id == -1)
+                                    $("#txtId").val("新增");
+                                else
+                                    $("#txtId").val(id);
+                            </script>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 col-xs-4">
+                            所属部门
+                        </label>
+                        <div class="col-sm-8 col-xs-8">
+                            <input type="text" id="unitSearch" displaymember='unitName' valuemember='unitSeq'
+                                autocomplete="off" class="col-xs-10 col-sm-10" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 col-xs-4">
+                            用户姓名
+                        </label>
+                        <div class="col-sm-8 col-xs-8">
+                            <input type="text" name="Name" value="@Model.Name"  autocomplete="off" class="col-xs-10 col-sm-10" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-3" style="margin-left: -50px; margin-top: -8px">
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-primary" onclick="$('#avatarSelect').click();return false;">
+                            <i class="icon-plus-sign bigger-110"></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" onclick="$('#avatarPreview').attr('src','data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==');$('form [name=avatar]').val('');return false;">
+                            <i class="icon-minus-sign bigger-110"></i>
+                        </button>
+                    </div>
+                    <input id="avatarSelect" type="file" style="display: none" />
+                    <input name="avatar" type="hidden" value=@ViewBag.avatar  />
+                    <img alt="" id="avatarPreview" src=@ViewBag.avatar  style="width: 90px; height: 90px; border: 1px solid #d5d5d5;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    工号
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="Code" value="@Model.Code" autocomplete="off" class="col-xs-10 col-sm-10"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    密码
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="password" name="Password" value="@Model.Password"  autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    性别
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <select name="Sex" class="col-xs-10 col-sm-10">
+                        @foreach (var item in this.ViewBag.Sex)
+                        {
+                            <option value="@item.Value">@item.Name</option>
+                        }
+                    </select>
+                    <script>
+				        $("form select[name='Sex']").val("@(string.IsNullOrEmpty(Model.Sex) ? "3" : Model.Sex)");
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    状态
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <select name="State" class="col-xs-10 col-sm-10">
+                        @foreach (var item in this.ViewBag.State)
+                        { 
+                            <option value="@item.Value">@item.Name</option>
+                        }
+                    </select>
+                    <script>
+                        $("form select[name='State']").val("@(string.IsNullOrEmpty(Model.State) ? "1" : Model.State)"); 
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    备注
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="Remark" value="@Model.Remark"  autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- basic styles -->
+    <link href="@Url.Content("~/Content/css/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/css/font-awesome.min.css")" rel="stylesheet" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/ui.jqgrid.css")" />
+    <!-- fonts -->
+    <link href="@Url.Content("~/Content/font/font.css")" rel="stylesheet" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/ace.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-rtl.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-skins.min.css")" />
+    <!--[if lte IE 8]>
+		  <link rel="stylesheet" href="@Url.Content("~/Content/css/ace-ie.min.css")" />
+		<![endif]-->
+    <style>
+        body
+        {
+            font-family: '微软雅黑';
+        }
+        label
+        {
+            text-align: end;
+        }
+        input
+        {
+            color: #393939 !important;
+        }
+        select
+        {
+            color: #393939 !important;
+            padding-left: 0px !important;
+            font-size: 14px;
+        }
+    </style>
+    <script src="@Url.Content("~/Content/js/jquery-2.0.3.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/jqGrid/jquery.jqGrid.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/jqGrid/i18n/grid.locale-cn.js")"></script>
+    <script src="@Url.Content("~/Content/js/search.js")"></script>
+    <script>
+        $.submitForm = function (arg) {
+            var btns = $(window.parent.document).find("#dialog-editor").parent().find(".ui-dialog-buttonpane button");
+            arg.beforeSend = function () {
+                $('#divLoading').css("display", "block");
+                btns.attr('disabled', 'disabled');
+            };
+            arg.close = true;
+            arg.type = "POST";
+            var token = $("input[name=__RequestVerificationToken]");
+            arg.data = arg.data + "&__RequestVerificationToken=" + token[0].value;
+            arg.complete = function () {
+                $('#divLoading').css("display", "none");
+                btns.removeAttr('disabled');
+                if (this.close) {
+                    window.parent.modalClose();
+                    if (arg.callback != null)
+                        arg.callback();
+                }
+            };
+            $.ajax(arg);
+        };
+        $.fn.extend({
+            serializeForm: function (data) {
+                var pStr = "";
+                var chks = this.find('input[type=checkbox]');
+                chks.each(function (i, obj) {
+                    if (obj.checked)
+                        obj.value = true;
+                    else
+                        pStr += "&" + obj.name + "=false";
+                });
+                return this.serialize() + pStr;
+            }
+        });
+    </script>
+</head>
+<body style="background: white;">
+    <div id="divLoading" style="display: none; position: fixed; width: 100%; height: 100%;
+        background: rgba(255, 255, 255, 0.7); z-index: 999;">
+    </div>
+    @RenderBody()
+    @Html.AntiForgeryToken()
+</body>
+</html>

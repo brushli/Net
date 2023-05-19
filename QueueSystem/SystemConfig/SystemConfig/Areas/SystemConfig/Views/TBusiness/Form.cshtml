@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_LayoutForm.cshtml";
+}
+<script>
+    $(function () {
+        initSearchControl({
+            id: 'unitSearch',
+            name: 'unitSeq',
+            value :'@Model.unitSeq',
+            displayText : '@Model.unitName',
+            height:280,
+            dataSource: @Html.Raw(this.ViewBag.unitList),
+            colModel: [{
+                        label: 'ID',
+                        name: 'ID',
+                        width: 30,
+                        key: true
+                    }, {
+                        label: '单位编码',
+                        width: 50,
+                        name: 'unitSeq'
+                    }, {
+                        label: '单位名称',
+                        name: 'unitName'
+                    }]
+        });
+    });
+    function submitForm(callback) {
+        $.submitForm({
+            url: "SubmitForm",
+            data: $('form').serializeForm(),
+            callback: callback
+        });
+    }
+</script>
+<div class="page-content">
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal" style="margin-top: 30px">
+            <input  type="hidden" name= "ID" value="@Model.ID" />
+            <input  type="hidden" name= "AreaNo" value="@Model.AreaNo" />
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    ID
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input id="txtId" readonly type="text" class="col-xs-10 col-sm-10" />
+                    <script>
+                        var id = $("form input[name='ID']").val();
+                        if (id == -1)
+                            $("#txtId").val("新增");
+                        else
+                            $("#txtId").val(id);
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    所属部门
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" id="unitSearch" displaymember='unitName' valuemember='unitSeq'
+                        autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    业务流水号
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="busiSeq" value="@Model.busiSeq" autocomplete="off" class="col-xs-10 col-sm-10"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    业务编号
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="busiCode" value="@Model.busiCode"  autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    业务名称
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <input type="text" name="busiName" value="@Model.busiName"  autocomplete="off" class="col-xs-10 col-sm-10" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-xs-3">
+                    预约类型
+                </label>
+                <div class="col-sm-9 col-xs-9">
+                    <select name="busiType" class="col-xs-10 col-sm-10">
+                        @foreach (var item in this.ViewBag.busiType)
+                        {
+                            <option value="@item.Value">@item.Name</option>
+                        }
+                    </select>
+                    <script>
+                        $("form select[name='busiType']").val("@(string.IsNullOrEmpty(Model.busiType) ? "1" : Model.busiType)");
+                    </script>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox" style="text-align: center">
+                    <label>
+                        <input name="acceptBusi" checked="@Model.acceptBusi" class="ace" type="checkbox" />
+                        <span class="lbl">&nbsp;预约办件</span>
+                    </label>
+                    <label style="margin-left: 30px">
+                        <input name="getBusi" checked="@Model.getBusi" class="ace" type="checkbox" />
+                        <span class="lbl">&nbsp;预约领件</span>
+                    </label>
+                    <label style="margin-left: 30px">
+                        <input name="askBusi" checked="@Model.askBusi" class="ace" type="checkbox" />
+                        <span class="lbl">&nbsp;预约咨询</span>
+                    </label>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

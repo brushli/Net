@@ -1,0 +1,89 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ChatGPT.ViewModels.Chat;assembly=ChatGPT.Core"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="200"
+             x:Class="ChatGPT.Views.Chat.ChatMessageActionsView"
+             x:CompileBindings="True" x:DataType="vm:ChatMessageViewModel">
+  <Design.DataContext>
+    <vm:ChatMessageViewModel>
+      <vm:ChatMessageViewModel.Role>user</vm:ChatMessageViewModel.Role>
+      <vm:ChatMessageViewModel.Message>This is message</vm:ChatMessageViewModel.Message>
+      <vm:ChatMessageViewModel.IsSent>True</vm:ChatMessageViewModel.IsSent>
+      <vm:ChatMessageViewModel.IsAwaiting>False</vm:ChatMessageViewModel.IsAwaiting>
+      <vm:ChatMessageViewModel.IsError>False</vm:ChatMessageViewModel.IsError>
+      <vm:ChatMessageViewModel.CanRemove>True</vm:ChatMessageViewModel.CanRemove>
+    </vm:ChatMessageViewModel>
+  </Design.DataContext>
+  <StackPanel HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Orientation="Vertical"
+              Spacing="0"
+              Background="Transparent">
+    <!-- Copy -->
+    <Button Name="Copy"
+            Command="{Binding CopyCommand}"
+            ToolTip.Tip="Copy"
+            HorizontalAlignment="Center"
+            Background="#00FFFFFF" 
+            BorderBrush="#00000000"
+            BorderThickness="1"
+            CornerRadius="4"
+            Margin="0,0,0,0" 
+            Padding="4,4,4,4"
+            MinWidth="24">
+      <PathIcon Data="{DynamicResource CopyIcon}"
+                Width="16" 
+                Height="16"
+                Foreground="{DynamicResource MessageActionBrush}"/>
+    </Button>
+    <!-- Edit -->
+    <Button Name="Edit"
+            Command="{Binding EditCommand}"
+            CommandParameter="Edit"
+            ToolTip.Tip="Edit"
+            HorizontalAlignment="Center"
+            Background="#00FFFFFF" 
+            BorderBrush="#00000000"
+            BorderThickness="1"
+            CornerRadius="4"
+            Margin="0,0,0,0" 
+            Padding="4,4,4,4"
+            MinWidth="24">
+      <Button.IsVisible>
+        <MultiBinding Converter="{x:Static BoolConverters.And}">
+          <Binding Path="IsSent" />
+          <Binding Path="IsAwaiting" Converter="{x:Static BoolConverters.Not}" />
+        </MultiBinding>
+      </Button.IsVisible>
+      <PathIcon Data="{DynamicResource EditIcon}"
+                Width="16" 
+                Height="16"
+                Foreground="{DynamicResource MessageActionBrush}"/>
+    </Button>
+    <!-- Remove -->
+    <Button Name="Remove"
+            Command="{Binding RemoveCommand}"
+            HorizontalAlignment="Center"
+            ToolTip.Tip="Remove"
+            Background="#00FFFFFF" 
+            BorderBrush="#00000000"
+            BorderThickness="1"
+            CornerRadius="4"
+            Margin="0,0,0,0" 
+            Padding="4,4,4,4"
+            MinWidth="24">
+      <Button.IsVisible>
+        <MultiBinding Converter="{x:Static BoolConverters.And}">
+          <Binding Path="CanRemove" />
+        </MultiBinding>
+      </Button.IsVisible>
+      <PathIcon Data="{DynamicResource DeleteIcon}"
+                Width="16" 
+                Height="16"
+                Foreground="{DynamicResource MessageActionBrush}"/>
+    </Button>
+  </StackPanel>
+</UserControl>
+
