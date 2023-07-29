@@ -18,5 +18,6 @@
 | mRemoteNG                  | mRemoteNG  远程桌面工具，多开源码                            |
 | MainRegister               | 给张杰做的一个简单的工具，注册提醒服务                       |
 | QueueSystem                | 一个排队叫号系统的源码，学习使用                             |
-| OCM                        | 基于ABP框架+angular版本的 门诊管理                           |
+| OCM                        | 基于ABP7.1框架+angular版本的 门诊管理，本来想做互联网医院管理的 |
+| Lee.EMS                    | Elevator Maintenance Services (EMS) 电梯维保项目；基于ABP8.1框架+Vue版本 |
 
