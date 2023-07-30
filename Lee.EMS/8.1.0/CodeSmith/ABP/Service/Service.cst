@@ -1,0 +1,32 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage="C#" Description="Generates a class including a special informational header" Debug="False" %>
+<!-- #include file="../Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="../Comm/Inc/SourceTable.inc" -->
+<!-- #include file="../Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="../Comm/Code/CommonUtility.cs" -->
+<!-- #include file="../Comm/Code/Function.cs" -->
+using System;
+using Abp.Application.Services;
+using <%=NameSpace %>.Dto;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using Abp.Domain.Repositories;
+using Abp.Authorization;
+namespace <%=NameSpace %>
+{
+    /// <summary>
+    /// <%=Discription%>服务
+    /// </summary>
+    [AbpAuthorize]
+    public class <%=BaseClassName%>AppService : AsyncCrudAppService<<%=BaseClassName%>, <%=BaseClassName%>Dto,long, Get<%=BaseClassName%>Dto,Create<%=BaseClassName%>Dto,<%=BaseClassName%>Dto>, I<%=BaseClassName%>AppService
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="repository"></param>     
+        public <%=BaseClassName%>AppService(IRepository<<%=BaseClassName%>, long> repository) : base(repository)
+        {
+            
+        }
+    }
+}

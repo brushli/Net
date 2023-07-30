@@ -1,0 +1,23 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage="C#" Description="Generates a class including a special informational header" Debug="False" %>
+<!-- #include file="../Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="../Comm/Inc/SourceTable.inc" -->
+<!-- #include file="../Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="../Comm/Code/CommonUtility.cs" -->
+<!-- #include file="../Comm/Code/Function.cs" -->
+using System;
+using Abp.Application.Services;
+using <%=NameSpace %>.Dto;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+namespace <%=NameSpace %>
+{
+    /// <summary>
+    /// <%=Discription%>服务
+    /// </summary>
+    public interface I<%=BaseClassName%>AppService : IAsyncCrudAppService<<%=BaseClassName%>Dto, long, Get<%=BaseClassName%>Dto, Create<%=BaseClassName%>Dto, <%=BaseClassName%>Dto>
+    {
+       
+
+    }
+}

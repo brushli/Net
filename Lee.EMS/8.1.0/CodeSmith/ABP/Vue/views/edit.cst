@@ -1,0 +1,94 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage=“C#" Description="Generates a class including a special informational header" Debug="False" %>
+<!-- #include file="../../Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="../../Comm/Inc/SourceTable.inc" -->
+<!-- #include file="../../Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="../../Comm/Code/CommonUtility.cs" -->
+<!-- #include file="../../Comm/Code/Function.cs" -->
+<template>
+    <div>
+        <Modal
+         :title="modalTitle"
+         :value="value"
+         @on-ok="save"
+         @on-visible-change="visibleChange"
+        >
+            <Form ref="<%=BaseClassName.ToLower()%>Form"  label-position="left" :rules="<%=BaseClassName.ToLower()%>Rule" :model="<%=BaseClassName.ToLower()%>">
+                <% for (int i = 0; i < SourceTable.Columns.Count; i++){ %>
+                <%if(SourceTable.Columns[i].Name.Contains("Id")||SourceTable.Columns[i].Name=="CreationTime"||SourceTable.Columns[i].Name=="CreatorUserId"||SourceTable.Columns[i].Name=="DeleterUserId"||SourceTable.Columns[i].Name=="DeletionTime"%>
+                <%  ||SourceTable.Columns[i].Name=="LastModificationTime"||SourceTable.Columns[i].Name=="LastModifierUserId"||SourceTable.Columns[i].Name=="Id"||SourceTable.Columns[i].Name=="IsDeleted"){continue;}%>
+                  <%if(GetTsType(SourceTable.Columns[i])=="Date")
+                  {%>
+              <FormItem label="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" prop="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>">
+                <Input v-model="<%=BaseClassName.ToLower()%>.<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" type="date"></Input>
+              </FormItem>                                 
+                  <%}%>
+                   <%if(GetTsType(SourceTable.Columns[i])=="number")
+                  {%>
+              <FormItem label="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" prop="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>">
+                <InputNumber v-model="<%=BaseClassName.ToLower()%>.<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" ></InputNumber>
+              </FormItem>                          
+                  <% } %>
+                   <%if(GetTsType(SourceTable.Columns[i])=="string")
+                  {%>
+              <FormItem label="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" prop="<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>">
+                <Input v-model="<%=BaseClassName.ToLower()%>.<%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>" :maxlength="50"></Input>
+              </FormItem>                                                    
+                  <%}%>                         
+                <% } %>
+            </Form>
+            <div slot="footer">
+                <Button @click="cancel">取消</Button>
+                <Button @click="save" type="primary">保存</Button>
+            </div>
+        </Modal>
+    </div>
+</template>
+<script lang="ts">
+    import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
+    import Util from '../../lib/util'
+    import AbpBase from '../../lib/abpbase'
+    import <%=BaseClassName%> from '../../store/entities/<%=BaseClassName.ToLower()%>'
+    @Component
+    export default class Edit<%=BaseClassName%> extends AbpBase{
+        @Prop({type:Boolean,default:false}) value:boolean;
+        <%=BaseClassName.ToLower()%>:<%=BaseClassName%>=new <%=BaseClassName%>();       
+        commitUrl:string=this.$store.state.<%=BaseClassName.ToLower()%>.isEdit?"<%=BaseClassName.ToLower()%>/update":"<%=BaseClassName.ToLower()%>/create"; 
+        modalTitle:string= this.$store.state.<%=BaseClassName.ToLower()%>.isEdit?"编辑":"创建";
+        save(){
+            (this.$refs.<%=BaseClassName.ToLower()%>Form as any).validate(async (valid:boolean)=>{
+                if(valid){
+                    await this.$store.dispatch({
+                      type:this.commitUrl,
+                      data:this.<%=BaseClassName.ToLower()%>
+                      }).then(res=>{
+                        (this.$refs.<%=BaseClassName.ToLower()%>Form as any).resetFields();
+                        this.$emit('save-success');
+                        this.$emit('input',false);
+                    });                  
+                }
+            })
+        }
+        cancel(){
+            (this.$refs.<%=BaseClassName.ToLower()%>Form as any).resetFields();
+            this.$emit('input',false);
+        }
+        visibleChange(value:boolean){
+            if(!value){
+                this.$store.state.<%=BaseClassName.ToLower()%>.isEdit=false;
+                this.$store.state.<%=BaseClassName.ToLower()%>.edit<%=BaseClassName%>=new <%=BaseClassName%>();      
+                (this.$refs.<%=BaseClassName.ToLower()%>Form as any).resetFields();
+                this.$emit('input',value);
+            }else{                
+                 if(this.$store.state.<%=BaseClassName.ToLower()%>.isEdit){
+                    this.<%=BaseClassName.ToLower()%>=Util.extend(true,{},this.$store.state.<%=BaseClassName.ToLower()%>.edit<%=BaseClassName%>);                    
+                }
+                this.commitUrl=this.$store.state.<%=BaseClassName.ToLower()%>.isEdit?"<%=BaseClassName.ToLower()%>/update":"<%=BaseClassName.ToLower()%>/create";
+                this.modalTitle= this.$store.state.<%=BaseClassName.ToLower()%>.isEdit?"编辑":"创建";
+            }
+        }        
+        <%=BaseClassName.ToLower()%>Rule={
+           //校验器：name:[{required: true,message:this.L('FieldIsRequired',undefined,this.L('TenantName')),trigger: 'blur'}],
+        }
+    }
+</script>
+

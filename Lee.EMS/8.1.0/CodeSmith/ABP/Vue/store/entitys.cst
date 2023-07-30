@@ -1,0 +1,25 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage=“C#" Description="Generates a class including a special informational header" Debug="False" %>
+<!-- #include file="../../Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="../../Comm/Inc/SourceTable.inc" -->
+<!-- #include file="../../Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="../../Comm/Code/CommonUtility.cs" -->
+<!-- #include file="../../Comm/Code/Function.cs" -->
+/*-------------------------------------------------------
+// Copyright (C) 2020 Lic
+//
+// 功能描述:<%=Discription%>  实体对象
+//
+//
+// 创建标识: <%= DevelopersName%> -- <%= DateTime.Now.ToString() %>
+//
+//------------------------------------------------------*/
+ 
+import Entity from './entity'
+// <%=Discription%> 
+export default class <%=BaseClassName%> extends Entity<number>{
+<% for (int i = 0; i < SourceTable.Columns.Count; i++){ %>
+<%if(SourceTable.Columns[i].Name.Contains("Id")||SourceTable.Columns[i].Name=="CreationTime"||SourceTable.Columns[i].Name=="CreatorUserId"||SourceTable.Columns[i].Name=="DeleterUserId"||SourceTable.Columns[i].Name=="DeletionTime"%>
+ <%   ||SourceTable.Columns[i].Name=="LastModificationTime"||SourceTable.Columns[i].Name=="LastModifierUserId"||SourceTable.Columns[i].Name=="Id"||SourceTable.Columns[i].Name=="IsDeleted"){continue;}%>
+    <%=StringUtil.ToCamelCase(SourceTable.Columns[i].Name) %>:<%= GetTsType(SourceTable.Columns[i]) %>;
+  <% } %>
+}

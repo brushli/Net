@@ -1,0 +1,1 @@
+<%@ Property Name="SourceTable" Type="SchemaExplorer.TableSchema" Optional="True" Category="Data" Description="指定数据表." %>

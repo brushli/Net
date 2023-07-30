@@ -1,0 +1,44 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage="C#" Debug="False" Description="生成全部文件." %>
+<%@ Register Name="CreateDto"  Template="Dto/CreateDto.cst" MergeProperties="False" %>
+<%@ Register Name="GetDto"  Template="Dto/GetDto.cst" MergeProperties="False" %>
+<%@ Register Name="UpDto"  Template="Dto/UpDto.cst" MergeProperties="False" %>
+<%@ Register Name="IService"  Template="Service/IService.cst" MergeProperties="False" %>
+<%@ Register Name="Service"  Template="Service/Service.cst" MergeProperties="False" %>
+<%@ Register Name="View_Main"  Template="Vue/views/main.cst" MergeProperties="False" %>
+<%@ Register Name="View_Edit"  Template="Vue/views/edit.cst" MergeProperties="False" %>
+<%@ Register Name="Store_Entitys" Template="Vue/store/entitys.cst" MergeProperties="False" %>
+<%@ Register Name="Store_Models"  Template="Vue/store/models.cst" MergeProperties="False" %>
+<!-- #include file="Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="Comm/Inc/SourceTable.inc" -->
+<!-- #include file="Comm/Code/Batch.cs" -->
+<!-- #include file="Comm/Code/CommonUtility.cs" -->
+<!-- #include file="Comm/Code/Function.cs" -->
+<%Creater();%>
+
+<script runat="template">
+public void Creater()
+{	
+	RenderTemplate(new CreateDto(), "Dto\\Create"+BaseClassName+"Dto.cs");	
+    RenderTemplate(new UpDto(), "Dto\\"+BaseClassName+"Dto.cs");
+    RenderTemplate(new GetDto(), "Dto\\Get"+BaseClassName+"Dto.cs");
+    RenderTemplate(new IService(), "Dto\\I"+BaseClassName+"Service.cs");
+    RenderTemplate(new Service(), "Dto\\"+BaseClassName+"Service.cs");
+    RenderTemplate(new View_Main(), "Vue\\"+BaseClassName.ToLower()+".vue");
+    RenderTemplate(new View_Edit(), "Vue\\edit-"+BaseClassName.ToLower()+".vue");
+    RenderTemplate(new Store_Entitys(), "Vue\\entitys\\"+BaseClassName.ToLower()+".ts");
+    RenderTemplate(new Store_Models(), "Vue\\models\\"+BaseClassName.ToLower()+".ts");	
+	Response.WriteLine("生成完成!");
+	Response.WriteLine("生成路径："+OutputDirectory);
+}
+public void RenderTemplate(CodeTemplate codeTemplate, string path)
+{
+	codeTemplate.SetProperty("BaseClassName",BaseClassName);
+	codeTemplate.SetProperty("NameSpace", NameSpace);
+	codeTemplate.SetProperty("OutputDirectory", OutputDirectory + path);
+	codeTemplate.SetProperty("SourceTable", SourceTable);
+	codeTemplate.SetProperty("Discription", Discription	);
+	codeTemplate.SetProperty("DevelopersName", DevelopersName);
+	codeTemplate.RenderToFile(OutputDirectory +path,true);
+}
+</script>

@@ -1,4 +1,4 @@
-import { appRouters, otherRouters } from '../../router/router'
+import { appRouters, otherRouters,basRouters} from '../../router/router'
 import Util from '../../lib/util';
 import Vue from 'vue';
 import { Store, Module, ActionContext } from 'vuex'
@@ -48,7 +48,8 @@ class AppModule implements Module<AppState, any>{
         menuList: [],
         routers: [
             otherRouters,
-            ...appRouters
+            ...appRouters,
+            ...basRouters
         ],
         tagsList: [...otherRouters.children],
         messageCount: 0,
@@ -66,6 +67,37 @@ class AppModule implements Module<AppState, any>{
         updateMenulist(state: AppState) {
             let menuList: Array<Router> = [];
             appRouters.forEach((item, index) => {
+                if (item.permission !== undefined) {
+                    let hasPermissionMenuArr: Array<Router> = [];
+                    hasPermissionMenuArr = item.children.filter(child => {
+                        if (child.permission !== undefined) {
+                            if (Util.abp.auth.hasPermission(child.permission)) {
+                                return child;
+                            }
+                        } else {
+                            return child;
+                        }
+                    });
+                    if (hasPermissionMenuArr.length > 0) {
+                        item.children = hasPermissionMenuArr;
+                        menuList.push(item);
+                    }
+                } else {
+                    if (item.children.length === 1) {
+                        menuList.push(item);
+                    } else {
+                        let len = menuList.push(item);
+                        let childrenArr = [];
+                        childrenArr = item.children.filter(child => {
+                            return child;
+                        });
+                        let handledItem = JSON.parse(JSON.stringify(menuList[len - 1]));
+                        handledItem.children = childrenArr;
+                        menuList.splice(len - 1, 1, handledItem);
+                    }
+                }
+            });
+            basRouters.forEach((item, index) => {
                 if (item.permission !== undefined) {
                     let hasPermissionMenuArr: Array<Router> = [];
                     hasPermissionMenuArr = item.children.filter(child => {

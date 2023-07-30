@@ -1,0 +1,49 @@
+﻿<%@ CodeTemplate ResponseEncoding="UTF-8" Language="C#" TargetLanguage="C#" Description="Generates a class including a special informational header" Debug="False" %>
+<!-- #include file="../Comm/Inc/BaseProperty.inc" -->
+<!-- #include file="../Comm/Inc/SourceTable.inc" -->
+<!-- #include file="../Comm/Inc/ImportAssembly.inc" -->
+<!-- #include file="../Comm/Code/CommonUtility.cs" -->
+<!-- #include file="../Comm/Code/Function.cs" -->
+/*-------------------------------------------------------
+// Copyright (C) 2019 Lic
+//
+// 文件名:Create<%=BaseClassName%>Dto.cs
+// 功能描述:<%=Discription%>  创建数据对象
+//
+//
+// 创建标识: <%= DevelopersName%> -- <%= DateTime.Now.ToString() %>
+//
+//------------------------------------------------------*/
+
+using Abp.AutoMapper;
+using Abp.Runtime.Validation;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+ 
+namespace <%=NameSpace %>.Dto
+{
+      /// <summary>
+      /// <%=Discription%> 创建对象
+      /// </summary>
+      [AutoMap(typeof(<%=BaseClassName%>))]
+      public class Create<%=BaseClassName%>Dto: IShouldNormalize
+      {
+
+        <% for (int i = 0; i < SourceTable.Columns.Count; i++){ %>
+        <%if(SourceTable.Columns[i].Name=="CreationTime"||SourceTable.Columns[i].Name=="CreatorUserId"||SourceTable.Columns[i].Name=="DeleterUserId"||SourceTable.Columns[i].Name=="DeletionTime"%>
+         <%   ||SourceTable.Columns[i].Name=="LastModificationTime"||SourceTable.Columns[i].Name=="LastModifierUserId"||SourceTable.Columns[i].Name=="Id"||SourceTable.Columns[i].Name=="IsDeleted"){continue;}%>
+		/// <summary>
+		/// <%=SourceTable.Columns[i].Description == "" ?SourceTable.Columns[i].Name : "" %> <%=cleanstring(SourceTable.Columns[i].Description) %>
+		/// </summary>	
+        <%=SourceTable.Columns[i].AllowDBNull?"":"[Required]"%>
+        public <%= GetCSharpVariableType(SourceTable.Columns[i]) %> <%=SourceTable.Columns[i].Name %> { get; set; }
+        
+        <% } %>
+        public void Normalize()
+        {
+        }
+      }
+      
+}
