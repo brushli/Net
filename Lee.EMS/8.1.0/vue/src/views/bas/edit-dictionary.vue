@@ -1,8 +1,6 @@
 ﻿
 <template>
-    <Row>
-        <Col span="12">
-            <div>
+    <div>
         <Modal
          :title="modalTitle"
          :value="value"
@@ -12,16 +10,13 @@
             <Form ref="dictionaryForm"  label-position="left" :rules="dictionaryRule" :model="dictionary">
               <FormItem label="名称" prop="name">
                 <Input v-model="dictionary.name" :maxlength="50"></Input>
-              </FormItem>                                                    
-              <FormItem label="序号" prop="sort">
-                <InputNumber v-model="dictionary.sort" ></InputNumber>
-              </FormItem>                          
+              </FormItem>                                                              
               <FormItem label="编码" prop="code">
                 <Input v-model="dictionary.code" :maxlength="50"></Input>
               </FormItem>                                                    
               <FormItem label="说明" prop="mem">
                 <Input aria-multiline="true" v-model="dictionary.mem" :maxlength="50"></Input>
-              </FormItem>                                                    
+              </FormItem>                                                 
             </Form>
             <div slot="footer">
                 <Button @click="cancel">取消</Button>
@@ -29,9 +24,6 @@
             </div>
         </Modal>
     </div>
-        </Col>
-    </Row>
-    
 </template>
 <script lang="ts">
     import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
@@ -77,7 +69,9 @@
             }
         }        
         dictionaryRule={
-           //校验器：name:[{required: true,message:this.L('FieldIsRequired',undefined,this.L('TenantName')),trigger: 'blur'}],
+           //校验器：
+           name:[{required: true,message:"必须填写",trigger: 'blur'}],
+           code:[{required: true,message:"必须填写",trigger: 'blur'}]
         }
     }
 </script>

@@ -2,14 +2,14 @@
 /*-------------------------------------------------------
 // Copyright (C) 2019 Lic
 //
-// 文件名:DictionaryDto.cs
-// 功能描述:公共字典  编辑对象
+// 文件名:CreateActionDto.cs
+// 功能描述:动作管理  创建数据对象
 //
 //
-// 创建标识: Lee -- 2023-07-29 22:36:02
+// 创建标识: Lee -- 2023-07-30 15:32:44
 //
 //------------------------------------------------------*/
-using Abp.Application.Services.Dto;
+
 using Abp.AutoMapper;
 using Abp.Runtime.Validation;
 using System;
@@ -17,20 +17,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
  
-namespace Lee.EMS.BAS.Dto
+namespace Lee.EMS.SYS.Dto
 {
       /// <summary>
-      /// 公共字典 编辑对象
+      /// 动作管理 创建对象
       /// </summary>
-      [AutoMap(typeof(Dictionary))]
-      public class DictionaryDto : EntityDto<long>
+      [AutoMap(typeof(Action))]
+      public class CreateActionDto: IShouldNormalize
       {
 
 		/// <summary>
-		/// ParentId 
+		/// ModuleId 
 		/// </summary>	
         [Required]
-        public long ParentId { get; set; }
+        public long ModuleId { get; set; }
         
 		/// <summary>
 		/// Name 
@@ -39,23 +39,32 @@ namespace Lee.EMS.BAS.Dto
         public string Name { get; set; }
         
 		/// <summary>
+		/// Icon 
+		/// </summary>	
+        
+        public string Icon { get; set; }
+        
+		/// <summary>
 		/// Sort 
 		/// </summary>	
         [Required]
-        public int Sort { get; set; }
+        public long Sort { get; set; }
         
 		/// <summary>
-		/// Code 
+		/// Visible 
 		/// </summary>	
         
-        public string Code { get; set; }
+        public string Visible { get; set; }
         
 		/// <summary>
-		/// Mem 
+		/// MethodCode 
 		/// </summary>	
         
-        public string Mem { get; set; }
+        public string MethodCode { get; set; }
         
+        public void Normalize()
+        {
+        }
       }
-     
+      
 }

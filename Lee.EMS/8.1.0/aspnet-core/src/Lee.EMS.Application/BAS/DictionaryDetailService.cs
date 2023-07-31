@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Repositories;
 using Abp.Authorization;
+using Abp.Linq.Extensions;
+
 namespace Lee.EMS.BAS
 {
     /// <summary>
@@ -22,6 +24,11 @@ namespace Lee.EMS.BAS
         public DictionaryDetailAppService(IRepository<DictionaryDetail, long> repository) : base(repository)
         {
             
+        }
+        protected override IQueryable<DictionaryDetail> CreateFilteredQuery(GetDictionaryDetailDto input)
+        {
+            return Repository.GetAll()
+               .WhereIf(input.DictionaryId.HasValue, x => x.DictionaryId== input.DictionaryId.Value);
         }
     }
 }

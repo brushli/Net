@@ -8,6 +8,10 @@ import user from './modules/user'
 import role from './modules/role'
 import tenant from './modules/tenant'
 import dictionary from './modules/dictionary'
+import dictionarydetail from './modules/dictionarydetail'
+import sysmodule from './modules/sysmodule'
+import action from './modules/action'
+import moduleactioninrole from './modules/moduleactioninrole'
 const store = new Vuex.Store({
     state: {
         //
@@ -25,7 +29,11 @@ const store = new Vuex.Store({
         user,
         role,
         tenant,
-        dictionary
+        dictionary,
+        dictionarydetail,
+        sysmodule,
+        action,
+        moduleactioninrole
     }
 });
 

@@ -28,7 +28,7 @@
                 </div>
             </div>
         </Card>        
-        <edit-dictionary v-model="editModalShow" @save-success="getpage"></edit-dictionary>
+        <edit-moduleactioninrole v-model="editModalShow" @save-success="getpage"></edit-moduleactioninrole>
     </div>
 </template>
 <script lang="ts">
@@ -36,8 +36,8 @@
     import Util from '@/lib/util'
     import AbpBase from '@/lib/abpbase'
     import PageRequest from '@/store/entities/page-request'    
-    import EditDictionary from './edit-dictionary.vue'
-    class  PageDictionaryRequest extends PageRequest{
+    import EditModuleActionInRole from './edit-moduleactioninrole.vue'
+    class  PageModuleActionInRoleRequest extends PageRequest{
         keyword:string;       
         from:Date;
         to:Date;
@@ -45,29 +45,29 @@
 
     @Component({
        components:{               
-               "edit-dictionary": EditDictionary
+               "edit-moduleactioninrole": EditModuleActionInRole
             }
     })
-    export default class DictionaryIndex extends AbpBase{
+    export default class ModuleActionInRoleIndex extends AbpBase{
         edit(){
             this.editModalShow=true;
         }
         //filters
-        pagerequest:PageDictionaryRequest=new PageDictionaryRequest();
+        pagerequest:PageModuleActionInRoleRequest=new PageModuleActionInRoleRequest();
         creationTime:Date[]=[];        
         editModalShow:boolean=false;
         get list(){
-            return this.$store.state.dictionary.list;
+            return this.$store.state.moduleactioninrole.list;
         };
         get loading(){
-            return this.$store.state.dictionary.loading;
+            return this.$store.state.moduleactioninrole.loading;
         }              
         pageChange(page:number){
-            this.$store.commit('dictionary/setCurrentPage',page);
+            this.$store.commit('moduleactioninrole/setCurrentPage',page);
             this.getpage();
         }
         pagesizeChange(pagesize:number){
-            this.$store.commit('dictionary/setPageSize',pagesize);
+            this.$store.commit('moduleactioninrole/setPageSize',pagesize);
             this.getpage();
         }
         async getpage(){
@@ -84,39 +84,23 @@
             }
 
             await this.$store.dispatch({
-                type:'dictionary/getAll',
+                type:'moduleactioninrole/getAll',
                 data:this.pagerequest
             })
         }
         get pageSize(){
-            return this.$store.state.dictionary.pageSize;
+            return this.$store.state.moduleactioninrole.pageSize;
         }
         get totalCount(){
-            return this.$store.state.dictionary.totalCount;
+            return this.$store.state.moduleactioninrole.totalCount;
         }
         get currentPage(){
-            return this.$store.state.dictionary.currentPage;
+            return this.$store.state.moduleactioninrole.currentPage;
         }
         async created(){
             this.getpage();           
         }
         columns=[
-        {
-              title:"name",
-              key:'name'
-         },            
-        {
-              title:"sort",
-              key:'sort'
-         },            
-        {
-              title:"code",
-              key:'code'
-         },            
-        {
-              title:"mem",
-              key:'mem'
-         },            
         {
               title:"creationTime",
               key:'creationTime'
@@ -137,7 +121,7 @@
                         },
                         on:{
                             click:()=>{
-                                this.$store.commit('dictionary/edit',params.row);
+                                this.$store.commit('moduleactioninrole/edit',params.row);
                                 this.edit();
                             }
                         }
@@ -151,12 +135,12 @@
                             click:async ()=>{
                                 this.$Modal.confirm({
                                         title:"系统提示",
-                                        content:"公共字典",
+                                        content:"模块动作与角色的关联",
                                         okText:"是",
                                         cancelText:"否",
                                         onOk:async()=>{
                                             await this.$store.dispatch({
-                                                type:'dictionary/delete',
+                                                type:'moduleactioninrole/delete',
                                                 data:params.row
                                             })
                                             await this.getpage();

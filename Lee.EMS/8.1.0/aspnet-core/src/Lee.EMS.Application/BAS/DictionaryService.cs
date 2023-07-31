@@ -7,6 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Repositories;
 using Abp.Authorization;
+using Abp.Application.Services.Dto;
+using Abp.Linq.Extensions;
+using Abp.Extensions;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+
 namespace Lee.EMS.BAS
 {
     /// <summary>
@@ -22,6 +27,11 @@ namespace Lee.EMS.BAS
         public DictionaryAppService(IRepository<Dictionary, long> repository) : base(repository)
         {
             
+        }
+        protected override IQueryable<Dictionary> CreateFilteredQuery(GetDictionaryDto input)
+        {
+            return Repository.GetAll()
+               .WhereIf(!input.KeyWord.IsNullOrWhiteSpace(), x => x.Name.Contains(input.KeyWord) || x.Code.Contains(input.KeyWord));
         }
     }
 }

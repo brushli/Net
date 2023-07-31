@@ -2,11 +2,11 @@
 /*-------------------------------------------------------
 // Copyright (C) 2019 Lic
 //
-// 文件名:GetDictionaryDto.cs
-// 功能描述:公共字典  创建数据对象
+// 文件名:GetSysModuleDto.cs
+// 功能描述:模块关联  创建数据对象
 //
 //
-// 创建标识: Lee -- 2023-07-29 22:36:02
+// 创建标识: Lee -- 2023-07-30 15:48:53
 //
 //------------------------------------------------------*/
 using Abp.Application.Services.Dto;
@@ -17,18 +17,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
  
-namespace Lee.EMS.BAS.Dto
+namespace Lee.EMS.SYS.Dto
 {
       /// <summary>
-      /// 公共字典 查询对象
+      /// 模块关联 查询对象
       /// </summary>      
-      public class GetDictionaryDto:PagedResultRequestDto
+      public class GetSysModuleDto:PagedResultRequestDto
       {
 
 		/// <summary>
 		/// ParentId 
 		/// </summary>	
-        public long ParentId { get; set; }
+        public long? ParentId { get; set; }
         
 		/// <summary>
 		/// Name 
@@ -36,19 +36,29 @@ namespace Lee.EMS.BAS.Dto
         public string Name { get; set; }
         
 		/// <summary>
+		/// Icon 
+		/// </summary>	
+        public string Icon { get; set; }
+        
+		/// <summary>
 		/// Sort 
 		/// </summary>	
-        public int Sort { get; set; }
+        public long? Sort { get; set; }
         
 		/// <summary>
-		/// Code 
+		/// Visible 
 		/// </summary>	
-        public string Code { get; set; }
+        public bool? Visible { get; set; }
         
 		/// <summary>
-		/// Mem 
+		/// PageRoute 
 		/// </summary>	
-        public string Mem { get; set; }
+        public string PageRoute { get; set; }
+        
+		/// <summary>
+		/// Describe 
+		/// </summary>	
+        public string Describe { get; set; }
         
       }
      

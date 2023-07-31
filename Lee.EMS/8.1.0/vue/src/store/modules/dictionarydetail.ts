@@ -3,13 +3,15 @@ import {Store,Module,ActionContext} from 'vuex'
 import ListModule from './list-module'
 import ListState from './list-state'
 import DictionaryDetail from '../entities/dictionarydetail'
+import Dictionary from '../entities/dictionary'
 import Ajax from '../../lib/ajax'
 import PageResult from '@/store/entities/page-result';
 import ListMutations from './list-mutations'
 
 interface DictionaryDetailState extends ListState<DictionaryDetail>{
     editDictionaryDetail:DictionaryDetail
-    isEdit:boolean
+    isEdit:boolean,
+    dictionary:Dictionary
 }
 class DictionaryDetailMutations extends ListMutations<DictionaryDetail>{
 
@@ -57,6 +59,12 @@ class DictionaryDetailModule extends ListModule<DictionaryDetailState,any,Dictio
         edit(state:DictionaryDetailState,dictionaryDetail:DictionaryDetail){
             state.isEdit=true;
             state.editDictionaryDetail=dictionaryDetail;
+        },
+        create(state:DictionaryDetailState,dictionary:Dictionary){
+            state.isEdit=false;
+            state.editDictionaryDetail=new DictionaryDetail();
+            state.editDictionaryDetail.dictionaryid=dictionary.id;
+            state.dictionary=dictionary;
         }
     }
 }

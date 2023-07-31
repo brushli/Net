@@ -12,9 +12,10 @@
 import Entity from './entity'
 // 公共字典 
 export default class DictionaryDetail extends Entity<number>{
+    dictionaryid:number;
     name:string;
     value:string;
     sort:number;
     describe:string;
-    isDefualt:number;
+    isDefualt:boolean;
 }

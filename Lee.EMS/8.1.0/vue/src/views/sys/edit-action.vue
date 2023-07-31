@@ -7,18 +7,21 @@
          @on-ok="save"
          @on-visible-change="visibleChange"
         >
-            <Form ref="dictionaryForm"  label-position="left" :rules="dictionaryRule" :model="dictionary">
+            <Form ref="actionForm"  label-position="left" :rules="actionRule" :model="action">
               <FormItem label="name" prop="name">
-                <Input v-model="dictionary.name" :maxlength="50"></Input>
+                <Input v-model="action.name" :maxlength="50"></Input>
+              </FormItem>                                                    
+              <FormItem label="icon" prop="icon">
+                <Input v-model="action.icon" :maxlength="50"></Input>
               </FormItem>                                                    
               <FormItem label="sort" prop="sort">
-                <InputNumber v-model="dictionary.sort" ></InputNumber>
+                <InputNumber v-model="action.sort" ></InputNumber>
               </FormItem>                          
-              <FormItem label="code" prop="code">
-                <Input v-model="dictionary.code" :maxlength="50"></Input>
+              <FormItem label="visible" prop="visible">
+                <Input v-model="action.visible" :maxlength="50"></Input>
               </FormItem>                                                    
-              <FormItem label="mem" prop="mem">
-                <Input v-model="dictionary.mem" :maxlength="50"></Input>
+              <FormItem label="methodCode" prop="methodCode">
+                <Input v-model="action.methodCode" :maxlength="50"></Input>
               </FormItem>                                                    
             </Form>
             <div slot="footer">
@@ -32,21 +35,21 @@
     import { Component, Vue,Inject, Prop,Watch } from 'vue-property-decorator';
     import Util from '../../lib/util'
     import AbpBase from '../../lib/abpbase'
-    import Dictionary from '../../store/entities/dictionary'
+    import Action from '../../store/entities/action'
     @Component
-    export default class EditDictionary extends AbpBase{
+    export default class EditAction extends AbpBase{
         @Prop({type:Boolean,default:false}) value:boolean;
-        dictionary:Dictionary=new Dictionary();       
-        commitUrl:string=this.$store.state.dictionary.isEdit?"dictionary/update":"dictionary/create"; 
-        modalTitle:string= this.$store.state.dictionary.isEdit?"编辑":"创建";
+        action:Action=new Action();       
+        commitUrl:string=this.$store.state.action.isEdit?"action/update":"action/create"; 
+        modalTitle:string= this.$store.state.action.isEdit?"编辑":"创建";
         save(){
-            (this.$refs.dictionaryForm as any).validate(async (valid:boolean)=>{
+            (this.$refs.actionForm as any).validate(async (valid:boolean)=>{
                 if(valid){
                     await this.$store.dispatch({
                       type:this.commitUrl,
-                      data:this.dictionary
+                      data:this.action
                       }).then(res=>{
-                        (this.$refs.dictionaryForm as any).resetFields();
+                        (this.$refs.actionForm as any).resetFields();
                         this.$emit('save-success');
                         this.$emit('input',false);
                     });                  
@@ -54,24 +57,24 @@
             })
         }
         cancel(){
-            (this.$refs.dictionaryForm as any).resetFields();
+            (this.$refs.actionForm as any).resetFields();
             this.$emit('input',false);
         }
         visibleChange(value:boolean){
             if(!value){
-                this.$store.state.dictionary.isEdit=false;
-                this.$store.state.dictionary.editDictionary=new Dictionary();      
-                (this.$refs.dictionaryForm as any).resetFields();
+                this.$store.state.action.isEdit=false;
+                this.$store.state.action.editAction=new Action();      
+                (this.$refs.actionForm as any).resetFields();
                 this.$emit('input',value);
             }else{                
-                 if(this.$store.state.dictionary.isEdit){
-                    this.dictionary=Util.extend(true,{},this.$store.state.dictionary.editDictionary);                    
+                 if(this.$store.state.action.isEdit){
+                    this.action=Util.extend(true,{},this.$store.state.action.editAction);                    
                 }
-                this.commitUrl=this.$store.state.dictionary.isEdit?"dictionary/update":"dictionary/create";
-                this.modalTitle= this.$store.state.dictionary.isEdit?"编辑":"创建";
+                this.commitUrl=this.$store.state.action.isEdit?"action/update":"action/create";
+                this.modalTitle= this.$store.state.action.isEdit?"编辑":"创建";
             }
         }        
-        dictionaryRule={
+        actionRule={
            //校验器：name:[{required: true,message:this.L('FieldIsRequired',undefined,this.L('TenantName')),trigger: 'blur'}],
         }
     }

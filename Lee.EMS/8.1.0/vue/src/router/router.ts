@@ -55,8 +55,8 @@ export const appRouters: Array<Router> = [{
         { path: 'role', permission: 'Pages.Roles', meta: { title: 'Roles' }, name: 'role', component: () => import('../views/setting/role/role.vue') },
         { path: 'tenant', permission: 'Pages.Tenants', meta: { title: 'Tenants' }, name: 'tenant', component: () => import('../views/setting/tenant/tenant.vue') },
     ]
-}]
-export const basRouters: Array<Router> = [{
+},
+{
     path: '/bas',
     name: 'bas',
     permission: '',
@@ -66,12 +66,24 @@ export const basRouters: Array<Router> = [{
     children: [
         { path: 'dictionary', meta: { title: '公共字典' }, name: 'dictionary', component: () => import('../views/bas/dictionary.vue') }
     ]
-}]
+},
+{
+    path: '/sys',
+    name: 'sys',
+    permission: '',
+    meta: { title: '系统权限' },
+    icon: '&#xe68a;',
+    component: main,
+    children: [
+        { path: 'sysmodule', meta: { title: '模块管理' }, name: 'sysmodule', component: () => import('../views/sys/sysmodule.vue') },
+    ]
+}
+]
+
 export const routers = [
     loginRouter,
     locking,
-    ...appRouters,    
-    ...basRouters,
+    ...appRouters, 
     otherRouters,
     
 ];

@@ -4,6 +4,7 @@ using Lee.EMS.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lee.EMS.Migrations
 {
     [DbContext(typeof(EMSDbContext))]
-    partial class EMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230730072740_添加模块和动作")]
+    partial class 添加模块和动作
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1794,47 +1797,7 @@ namespace Lee.EMS.Migrations
                     b.ToTable("Sys_Action");
                 });
 
-            modelBuilder.Entity("Lee.EMS.SYS.ModuleActionInRole", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ActionId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("ActionId");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ModuleId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("ModuleId");
-
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("RoleId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId", "ModuleId", "ActionId")
-                        .IsUnique();
-
-                    b.ToTable("Sys_ModuleActionInRole");
-                });
-
-            modelBuilder.Entity("Lee.EMS.SYS.SysModule", b =>
+            modelBuilder.Entity("Lee.EMS.SYS.Module", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -1883,13 +1846,54 @@ namespace Lee.EMS.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("Sort");
 
-                    b.Property<bool>("Visible")
-                        .HasColumnType("bit")
+                    b.Property<string>("Visible")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)")
                         .HasColumnName("Visible");
 
                     b.HasKey("Id");
 
                     b.ToTable("Sys_Module");
+                });
+
+            modelBuilder.Entity("Lee.EMS.SYS.ModuleActionInRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ActionId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("ActionId");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ModuleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("ModuleId");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId", "ModuleId", "ActionId")
+                        .IsUnique();
+
+                    b.ToTable("Sys_ModuleActionInRole");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>

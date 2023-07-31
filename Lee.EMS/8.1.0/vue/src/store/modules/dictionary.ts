@@ -58,6 +58,7 @@ class DictionaryModule extends ListModule<DictionaryState,any,Dictionary>{
             state.isEdit=true;
             state.editDictionary=dictionary;
         }
+        
     }
 }
 const dictionaryModule=new DictionaryModule();

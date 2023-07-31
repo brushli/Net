@@ -1,25 +1,25 @@
 ﻿
 using System;
 using Abp.Application.Services;
-using Lee.EMS.BAS.Dto;
+using Lee.EMS.SYS.Dto;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Abp.Domain.Repositories;
 using Abp.Authorization;
-namespace Lee.EMS.BAS
+namespace Lee.EMS.SYS
 {
     /// <summary>
-    /// 公共字典服务
+    /// 动作管理服务
     /// </summary>
     [AbpAuthorize]
-    public class DictionaryDetailAppService : AsyncCrudAppService<DictionaryDetail, DictionaryDetailDto,long, GetDictionaryDetailDto,CreateDictionaryDetailDto,DictionaryDetailDto>, IDictionaryDetailAppService
+    public class ActionAppService : AsyncCrudAppService<Action, ActionDto,long, GetActionDto,CreateActionDto,ActionDto>, IActionAppService
     {
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="repository"></param>     
-        public DictionaryDetailAppService(IRepository<DictionaryDetail, long> repository) : base(repository)
+        public ActionAppService(IRepository<Action, long> repository) : base(repository)
         {
             
         }

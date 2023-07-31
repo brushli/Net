@@ -2,11 +2,11 @@
 /*-------------------------------------------------------
 // Copyright (C) 2019 Lic
 //
-// 文件名:GetDictionaryDetailDto.cs
-// 功能描述:公共字典  创建数据对象
+// 文件名:GetActionDto.cs
+// 功能描述:动作管理  创建数据对象
 //
 //
-// 创建标识: Lee -- 2023-07-29 22:36:10
+// 创建标识: Lee -- 2023-07-30 15:32:44
 //
 //------------------------------------------------------*/
 using Abp.Application.Services.Dto;
@@ -17,18 +17,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
  
-namespace Lee.EMS.BAS.Dto
+namespace Lee.EMS.SYS.Dto
 {
       /// <summary>
-      /// 公共字典 查询对象
+      /// 动作管理 查询对象
       /// </summary>      
-      public class GetDictionaryDetailDto:PagedResultRequestDto
+      public class GetActionDto:PagedResultRequestDto
       {
 
 		/// <summary>
-		/// DictionaryId 
+		/// ModuleId 
 		/// </summary>	
-        public long DictionaryId { get; set; }
+        public long? ModuleId { get; set; }
         
 		/// <summary>
 		/// Name 
@@ -36,24 +36,24 @@ namespace Lee.EMS.BAS.Dto
         public string Name { get; set; }
         
 		/// <summary>
-		/// Value 
+		/// Icon 
 		/// </summary>	
-        public string Value { get; set; }
+        public string Icon { get; set; }
         
 		/// <summary>
 		/// Sort 
 		/// </summary>	
-        public int Sort { get; set; }
+        public long? Sort { get; set; }
         
 		/// <summary>
-		/// Describe 
+		/// Visible 
 		/// </summary>	
-        public string Describe { get; set; }
+        public string Visible { get; set; }
         
 		/// <summary>
-		/// IsDefualt 
+		/// MethodCode 
 		/// </summary>	
-        public bool IsDefualt { get; set; }
+        public string MethodCode { get; set; }
         
       }
      

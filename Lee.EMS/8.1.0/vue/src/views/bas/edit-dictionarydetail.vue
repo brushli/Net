@@ -1,5 +1,4 @@
-﻿
-<template>
+﻿<template>
     <div>
         <Modal
          :title="modalTitle"
@@ -8,21 +7,27 @@
          @on-visible-change="visibleChange"
         >
             <Form ref="dictionarydetailForm"  label-position="left" :rules="dictionarydetailRule" :model="dictionarydetail">
-              <FormItem label="name" prop="name">
+              <FormItem label="名称" prop="name">
                 <Input v-model="dictionarydetail.name" :maxlength="50"></Input>
               </FormItem>                                                    
-              <FormItem label="value" prop="value">
+              <FormItem label="值" prop="value">
                 <Input v-model="dictionarydetail.value" :maxlength="50"></Input>
-              </FormItem>                                                    
-              <FormItem label="sort" prop="sort">
-                <InputNumber v-model="dictionarydetail.sort" ></InputNumber>
-              </FormItem>                          
-              <FormItem label="describe" prop="describe">
+              </FormItem>
+              <FormItem label="描述" prop="describe">
                 <Input v-model="dictionarydetail.describe" :maxlength="50"></Input>
-              </FormItem>                                                    
-              <FormItem label="isDefualt" prop="isDefualt">
-                <InputNumber v-model="dictionarydetail.isDefualt" ></InputNumber>
-              </FormItem>                          
+              </FormItem>
+              <Row>
+                <Col span="6">
+                  <FormItem label="序号" prop="sort">
+                    <InputNumber v-model="dictionarydetail.sort" :min="1" ></InputNumber>
+                  </FormItem>  
+                </Col>
+                <Col span="6">
+                  <FormItem label="默认" prop="isDefualt">
+                    <Checkbox v-model="dictionarydetail.isDefualt" ></Checkbox>
+                  </FormItem>  
+                </Col>
+              </Row>                            
             </Form>
             <div slot="footer">
                 <Button @click="cancel">取消</Button>
@@ -39,7 +44,7 @@
     @Component
     export default class EditDictionaryDetail extends AbpBase{
         @Prop({type:Boolean,default:false}) value:boolean;
-        dictionarydetail:DictionaryDetail=new DictionaryDetail();       
+        dictionarydetail:DictionaryDetail=new DictionaryDetail();               
         commitUrl:string=this.$store.state.dictionarydetail.isEdit?"dictionarydetail/update":"dictionarydetail/create"; 
         modalTitle:string= this.$store.state.dictionarydetail.isEdit?"编辑":"创建";
         save(){
@@ -67,15 +72,15 @@
                 (this.$refs.dictionarydetailForm as any).resetFields();
                 this.$emit('input',value);
             }else{                
-                 if(this.$store.state.dictionarydetail.isEdit){
-                    this.dictionarydetail=Util.extend(true,{},this.$store.state.dictionarydetail.editDictionaryDetail);                    
-                }
+                this.dictionarydetail=Util.extend(true,{},this.$store.state.dictionarydetail.editDictionaryDetail); 
                 this.commitUrl=this.$store.state.dictionarydetail.isEdit?"dictionarydetail/update":"dictionarydetail/create";
-                this.modalTitle= this.$store.state.dictionarydetail.isEdit?"编辑":"创建";
+                this.modalTitle= this.$store.state.dictionarydetail.isEdit?"编辑":"创建-"+this.$store.state.dictionarydetail.dictionary.name;
             }
         }        
         dictionarydetailRule={
-           //校验器：name:[{required: true,message:this.L('FieldIsRequired',undefined,this.L('TenantName')),trigger: 'blur'}],
+           //校验器：
+           name:[{required: true,message:"必须填写",trigger: 'blur'}],
+           value:[{required: true,message:"必须填写",trigger: 'blur'}],
         }
     }
 </script>

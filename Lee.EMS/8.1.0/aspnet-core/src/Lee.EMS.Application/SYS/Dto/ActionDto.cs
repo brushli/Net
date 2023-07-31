@@ -2,14 +2,14 @@
 /*-------------------------------------------------------
 // Copyright (C) 2019 Lic
 //
-// 文件名:CreateDictionaryDetailDto.cs
-// 功能描述:公共字典  创建数据对象
+// 文件名:ActionDto.cs
+// 功能描述:动作管理  编辑对象
 //
 //
-// 创建标识: Lee -- 2023-07-29 22:36:09
+// 创建标识: Lee -- 2023-07-30 15:32:44
 //
 //------------------------------------------------------*/
-
+using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Runtime.Validation;
 using System;
@@ -17,20 +17,20 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
  
-namespace Lee.EMS.BAS.Dto
+namespace Lee.EMS.SYS.Dto
 {
       /// <summary>
-      /// 公共字典 创建对象
+      /// 动作管理 编辑对象
       /// </summary>
-      [AutoMap(typeof(DictionaryDetail))]
-      public class CreateDictionaryDetailDto: IShouldNormalize
+      [AutoMap(typeof(Action))]
+      public class ActionDto : EntityDto<long>
       {
 
 		/// <summary>
-		/// DictionaryId 
+		/// ModuleId 
 		/// </summary>	
         [Required]
-        public long DictionaryId { get; set; }
+        public long ModuleId { get; set; }
         
 		/// <summary>
 		/// Name 
@@ -39,32 +39,29 @@ namespace Lee.EMS.BAS.Dto
         public string Name { get; set; }
         
 		/// <summary>
-		/// Value 
+		/// Icon 
 		/// </summary>	
-        [Required]
-        public string Value { get; set; }
+        
+        public string Icon { get; set; }
         
 		/// <summary>
 		/// Sort 
 		/// </summary>	
         [Required]
-        public int Sort { get; set; }
+        public long Sort { get; set; }
         
 		/// <summary>
-		/// Describe 
+		/// Visible 
 		/// </summary>	
         
-        public string Describe { get; set; }
+        public string Visible { get; set; }
         
 		/// <summary>
-		/// IsDefualt 
+		/// MethodCode 
 		/// </summary>	
-        [Required]
-        public bool IsDefualt { get; set; }
         
-        public void Normalize()
-        {
-        }
+        public string MethodCode { get; set; }
+        
       }
-      
+     
 }

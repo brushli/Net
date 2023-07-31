@@ -28,7 +28,7 @@ namespace Lee.EMS.BAS.Dto
 		/// <summary>
 		/// DictionaryId 
 		/// </summary>	
-        public long DictionaryId { get; set; }
+        public long? DictionaryId { get; set; }
         
 		/// <summary>
 		/// Name 
@@ -43,7 +43,7 @@ namespace Lee.EMS.BAS.Dto
 		/// <summary>
 		/// Sort 
 		/// </summary>	
-        public int Sort { get; set; }
+        public int? Sort { get; set; }
         
 		/// <summary>
 		/// Describe 
@@ -53,7 +53,7 @@ namespace Lee.EMS.BAS.Dto
 		/// <summary>
 		/// IsDefualt 
 		/// </summary>	
-        public bool IsDefualt { get; set; }
+        public bool? IsDefualt { get; set; }
         
       }
      

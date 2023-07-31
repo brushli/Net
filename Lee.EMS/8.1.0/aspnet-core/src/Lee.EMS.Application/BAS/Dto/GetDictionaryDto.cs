@@ -25,9 +25,10 @@ namespace Lee.EMS.BAS.Dto
       public class GetDictionaryDto:PagedResultRequestDto
       {
 
-		/// <summary>
-		/// ParentId 
-		/// </summary>	
+        public string KeyWord { set; get; }
+        /// <summary>
+        /// ParentId 
+        /// </summary>	
         public long ParentId { get; set; }
         
 		/// <summary>

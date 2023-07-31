@@ -4,6 +4,7 @@ using Lee.EMS.Authorization.Roles;
 using Lee.EMS.Authorization.Users;
 using Lee.EMS.MultiTenancy;
 using Lee.EMS.BAS;
+using Lee.EMS.SYS;
 
 namespace Lee.EMS.EntityFrameworkCore
 {
@@ -15,6 +16,9 @@ namespace Lee.EMS.EntityFrameworkCore
         /// </summary>
         public virtual DbSet<Dictionary> BasDictionary { get; set; }
         public virtual DbSet<DictionaryDetail> BasDictionaryDetail { get; set; }
+        public virtual DbSet<Action> SysAction { get; set; }
+        public virtual DbSet<SysModule> SysModule { get; set; }
+        public virtual DbSet<ModuleActionInRole> SysModuleActionInRole { get; set; }
         public EMSDbContext(DbContextOptions<EMSDbContext> options)
             : base(options)
         {
