@@ -29,7 +29,7 @@ namespace DbUp.Oracle
             using (var reader = commandReaderFactory(scriptContents))
             {
                 var commands = new List<string>();
-                reader.ReadAllCommands(c => commands.Add(c));
+                reader.ReadAllCommands(c => commands.Add(c.Replace('&', '/')));
                 return commands;
             }
         }
