@@ -36,31 +36,28 @@ namespace DBUPTest
                 var aa = Assembly.LoadFile(AppDomain.CurrentDomain.BaseDirectory+"\\DBUPTestServer.exe").CustomAttributes.FirstOrDefault(f=>f.AttributeType.Equals(typeof(AssemblyVersionAttribute)));
                 //string input = "3.4.5.6";
                 //int[] output = input.Split('.').Select(int.Parse).ToArray();
+                var startInputVersion="5.3.8.1";
+                var endInputVersion = "5.3.8.1";
+                int[] output = startInputVersion.Split('.').Select(int.Parse).ToArray();
                 var files = new List<FileInfo>();
                 string[] fileNames = Directory.GetFiles(sqlDirectory);
-                int[] startVersion = { 5, 3, 5, 3 };
-                int[] endVersion = { 5, 3, 6, 3 };
+                int startVersion = int.Parse(startInputVersion.Replace(".", ""));
+                int endVersion = int.Parse(endInputVersion.Replace(".", ""));
                 var filteredFileNames = fileNames.Where(fileName =>
                 {
                     string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
                     string[] parts = fileNameWithoutExtension.Split('_');
                     if (parts.Length != 3) return false;
-
                     string[] versionParts = parts[0].Split('.');
                     if (versionParts.Length != 4) return false;
-
+                    int fileVersion = int.Parse(parts[0].Replace(".", ""));
                     bool isValidVersion = true;
-                    for (int i = 0; i < versionParts.Length; i++)
+                    if (fileVersion < startVersion || fileVersion > endVersion)
                     {
-                        int versionPart = int.Parse(versionParts[i]);
-                        if (versionPart < startVersion[i] || versionPart > endVersion[i])
-                        {
-                            isValidVersion = false;
-                            break;
-                        }
+                        isValidVersion = false;
                     }
                     return isValidVersion;
-                }).Select(s=> Path.GetFileName(s)).ToList();
+                }).Select(s => Path.GetFileName(s)).ToList();
                 Console.WriteLine("此次需要执行的脚本有以下：");
                 foreach (string fileName in filteredFileNames)
                 {
@@ -79,6 +76,7 @@ namespace DBUPTest
                 Console.WriteLine("Error: " + ex.Message);
                 Console.ReadKey();
             }
+
             
 
         }

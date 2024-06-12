@@ -125,6 +125,7 @@ namespace DbUp.Support
                     foreach (var statement in scriptStatements)
                     {
                         index++;
+                        script.ExecuteCommand = statement;
                         using (var command = dbCommandFactory())
                         {
                             command.CommandText = statement;

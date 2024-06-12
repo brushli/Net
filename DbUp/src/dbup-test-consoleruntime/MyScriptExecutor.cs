@@ -34,7 +34,7 @@ namespace DBUPTest
             catch (OracleException exception)
             {
                 //Log().WriteInformation("Oracle exception has occured in script: '{0}'", script.Name);
-                Log().WriteError("{1}遇到错误： {2}", script.Name, script.Contents?.Substring(0, Math.Min(script.Contents.Length, 50)), exception.Message);
+                Log().WriteError("{1}遇到错误： {2}", script.Name, script.ExecuteCommand?.Substring(0, Math.Min(script.Contents.Length, 50)), exception.Message);
                 //Log().WriteError(exception.ToString());
                 //throw;
             }

@@ -42,7 +42,10 @@ namespace DbUp.Engine
         /// Gets the SQL Script Options
         /// </summary>
         public SqlScriptOptions SqlScriptOptions { get; }
-
+        /// <summary>
+        /// 当前正在执行的脚本
+        /// </summary>
+        public string ExecuteCommand { get; set; }
         /// <summary>
         /// Gets the name of the script.
         /// </summary>
